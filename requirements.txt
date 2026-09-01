@@ -1,0 +1,3 @@
+# Bem-viver
+Flask
+Flask-SQLAlchemy
