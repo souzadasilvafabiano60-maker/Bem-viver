@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Bem Viver</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}"
+       class="logo">
+
+        <span>♡</span>
+        Bem <b>Viver</b>
+
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('index') }}">
+            Início
+        </a>
+
+        <a href="{{ url_for('cadastro') }}"
+           class="btn-nav">
+            Criar conta
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            ♡
+        </div>
+
+        <span class="tag">
+            BEM-VINDO DE VOLTA
+        </span>
+
+        <h1>
+            Que bom ter você aqui!
+        </h1>
+
+        <p>
+            Entre na sua conta e continue
+            cuidando de você.
+        </p>
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for categoria, mensagem in messages %}
+
+                    <div class="alert {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <label>
+                E-mail
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="seu@email.com"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                Senha
+
+                <input
+                    type="password"
+                    name="senha"
+                    placeholder="••••••••"
+                    required
+                >
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="btn-primary full">
+
+                Entrar
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-bottom">
+
+            Ainda não tem uma conta?
+
+            <a href="{{ url_for('cadastro') }}">
+                Criar conta
+            </a>
+
+        </p>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <h3>
+        ♡ Bem <b>Viver</b>
+    </h3>
+
+    <span>
+        © 2026 Bem Viver
+    </span>
+
+</footer>
+
+</body>
+</html>

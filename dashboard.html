@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Meu espaço - Bem Viver</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}"
+       class="logo">
+
+        <span>♡</span>
+        Bem <b>Viver</b>
+
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('dashboard') }}">
+            Meu espaço
+        </a>
+
+        <a href="{{ url_for('diario') }}">
+            Diário
+        </a>
+
+        <a href="{{ url_for('perfil') }}">
+            Perfil
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="btn-nav">
+            Sair
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="dashboard">
+
+    <div class="welcome">
+
+        <div>
+
+            <span class="tag">
+                SEU ESPAÇO
+            </span>
+
+            <h1>
+                Olá, {{ usuario["nome"] }} 💜
+            </h1>
+
+            <p>
+                Como você está se sentindo hoje?
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('diario') }}"
+            class="btn-primary">
+
+            + Registrar humor
+
+        </a>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <span>📖</span>
+
+            <div>
+
+                <strong>
+                    {{ total }}
+                </strong>
+
+                <small>
+                    registros no diário
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>🌿</span>
+
+            <div>
+
+                <strong>
+                    1
+                </strong>
+
+                <small>
+                    exercício de respiração
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>💜</span>
+
+            <div>
+
+                <strong>
+                    Você
+                </strong>
+
+                <small>
+                    é sua prioridade
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+
+        <section class="panel">
+
+            <div class="panel-title">
+
+                <h2>
+                    Últimos registros
+                </h2>
+
+                <a href="{{ url_for('diario') }}">
+                    Ver todos
+                </a>
+
+            </div>
+
+
+            {% if registros %}
+
+                {% for registro in registros %}
+
+                    <div class="entry">
+
+                        <span class="entry-mood">
+                            {{ registro["humor"] }}
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                {{ registro["criado_em"] }}
+                            </strong>
+
+                            <p>
+                                {{ registro["nota"] or "Sem observação." }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+
+                    <span>🌱</span>
+
+                    <p>
+                        Seu primeiro registro
+                        começa aqui.
+                    </p>
+
+                    <a href="{{ url_for('diario') }}">
+                        Registrar agora
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <section class="panel encouragement">
+
+            <span class="big-heart">
+                ♡
+            </span>
+
+            <h2>
+                Um lembrete para hoje
+            </h2>
+
+            <p>
+                Seu bem-estar merece espaço
+                na sua rotina.
+            </p>
+
+            <a
+                href="{{ url_for('respirar') }}"
+                class="btn-secondary">
+
+                Respirar por 2 minutos
+
+            </a>
+
+        </section>
+
+    </div>
+
+</main>
+
+</body>
+</html>

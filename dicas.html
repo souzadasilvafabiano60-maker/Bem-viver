@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dicas - Bem Viver</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}"
+       class="logo">
+
+        <span>♡</span>
+        Bem <b>Viver</b>
+
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('index') }}">
+            Início
+        </a>
+
+        <a href="{{ url_for('dicas') }}">
+            Dicas
+        </a>
+
+        <a href="{{ url_for('respirar') }}">
+            Respiração
+        </a>
+
+        {% if usuario %}
+
+            <a href="{{ url_for('dashboard') }}">
+                Meu espaço
+            </a>
+
+        {% else %}
+
+            <a href="{{ url_for('login') }}"
+               class="btn-nav">
+                Entrar
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-heading center">
+
+        <span class="tag">
+            AUTOCUIDADO
+        </span>
+
+        <h1>
+            Pequenos cuidados,
+            grandes diferenças.
+        </h1>
+
+        <p>
+            Escolha uma ideia e experimente
+            incorporá-la ao seu dia.
+        </p>
+
+    </div>
+
+
+    <div class="tips-grid">
+
+
+        <article class="tip-card">
+
+            <span>🌙</span>
+
+            <h3>
+                Cuide do sono
+            </h3>
+
+            <p>
+                Tente manter horários regulares
+                para dormir e descansar.
+            </p>
+
+        </article>
+
+
+        <article class="tip-card">
+
+            <span>💧</span>
+
+            <h3>
+                Beba água
+            </h3>
+
+            <p>
+                Manter-se hidratado é um cuidado
+                simples que pode fazer parte da rotina.
+            </p>
+
+        </article>
+
+
+        <article class="tip-card">
+
+            <span>🚶</span>
+
+            <h3>
+                Movimente-se
+            </h3>
+
+            <p>
+                Uma caminhada, alongamento ou
+                outra atividade que você goste já conta.
+            </p>
+
+        </article>
+
+
+        <article class="tip-card">
+
+            <span>📵</span>
+
+            <h3>
+                Faça uma pausa
+            </h3>
+
+            <p>
+                Afaste-se por alguns minutos das
+                telas e aproveite o momento presente.
+            </p>
+
+        </article>
+
+
+        <article class="tip-card">
+
+            <span>🫶</span>
+
+            <h3>
+                Converse
+            </h3>
+
+            <p>
+                Compartilhar o que você sente com
+                alguém de confiança pode ajudar.
+            </p>
+
+        </article>
+
+
+        <article class="tip-card">
+
+            <span>🌱</span>
+
+            <h3>
+                Respeite seu ritmo
+            </h3>
+
+            <p>
+                Nem todos os dias serão iguais.
+                Evite se cobrar perfeição.
+            </p>
+
+        </article>
+
+
+    </div>
+
+</main>
+
+</body>
+</html>

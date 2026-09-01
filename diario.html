@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Diário emocional - Bem Viver</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}"
+       class="logo">
+
+        <span>♡</span>
+        Bem <b>Viver</b>
+
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('dashboard') }}">
+            Meu espaço
+        </a>
+
+        <a href="{{ url_for('diario') }}">
+            Diário
+        </a>
+
+        <a href="{{ url_for('perfil') }}">
+            Perfil
+        </a>
+
+        <a href="{{ url_for('logout') }}"
+           class="btn-nav">
+            Sair
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="page">
+
+    <div class="page-heading">
+
+        <span class="tag">
+            DIÁRIO EMOCIONAL
+        </span>
+
+        <h1>
+            Como você está hoje?
+        </h1>
+
+        <p>
+            Não existe resposta certa.
+            Apenas seja sincero(a) com você.
+        </p>
+
+    </div>
+
+
+    <div class="diary-grid">
+
+
+        <section class="panel">
+
+            <form method="POST">
+
+
+                <h3 class="question">
+                    Escolha seu humor
+                </h3>
+
+
+                <div class="moods">
+
+
+                    <label class="mood-option">
+
+                        <input
+                            type="radio"
+                            name="humor"
+                            value="😄"
+                            required
+                        >
+
+                        <span>😄</span>
+
+                        <small>
+                            Muito bem
+                        </small>
+
+                    </label>
+
+
+                    <label class="mood-option">
+
+                        <input
+                            type="radio"
+                            name="humor"
+                            value="🙂"
+                        >
+
+                        <span>🙂</span>
+
+                        <small>
+                            Bem
+                        </small>
+
+                    </label>
+
+
+                    <label class="mood-option">
+
+                        <input
+                            type="radio"
+                            name="humor"
+                            value="😐"
+                        >
+
+                        <span>😐</span>
+
+                        <small>
+                            Neutro
+                        </small>
+
+                    </label>
+
+
+                    <label class="mood-option">
+
+                        <input
+                            type="radio"
+                            name="humor"
+                            value="😔"
+                        >
+
+                        <span>😔</span>
+
+                        <small>
+                            Triste
+                        </small>
+
+                    </label>
+
+
+                    <label class="mood-option">
+
+                        <input
+                            type="radio"
+                            name="humor"
+                            value="😣"
+                        >
+
+                        <span>😣</span>
+
+                        <small>
+                            Difícil
+                        </small>
+
+                    </label>
+
+                </div>
+
+
+                <h3 class="question">
+                    O que influenciou seu dia?
+                </h3>
+
+
+                <div class="checks">
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="fatores"
+                            value="Sono"
+                        >
+                        Sono
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="fatores"
+                            value="Estudos"
+                        >
+                        Estudos
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="fatores"
+                            value="Família"
+                        >
+                        Família
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="fatores"
+                            value="Amigos"
+                        >
+                        Amigos
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="fatores"
+                            value="Alimentação"
+                        >
+                        Alimentação
+                    </label>
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="fatores"
+                            value="Exercício"
+                        >
+                        Exercício
+                    </label>
+
+                </div>
+
+
+                <h3 class="question">
+                    Quer escrever um pouco?
+                </h3>
+
+
+                <textarea
+                    name="nota"
+                    rows="7"
+                    placeholder="Coloque aqui o que estiver passando pela sua cabeça..."
+                ></textarea>
+
+
+                <button
+                    type="submit"
+                    class="btn-primary">
+
+                    Salvar meu registro 💜
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="panel">
+
+            <div class="panel-title">
+
+                <h2>
+                    Minha jornada
+                </h2>
+
+            </div>
+
+
+            {% if registros %}
+
+                {% for registro in registros %}
+
+                    <div class="timeline">
+
+                        <span class="entry-mood">
+                            {{ registro["humor"] }}
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                {{ registro["criado_em"] }}
+                            </strong>
+
+                            {% if registro["fatores"] %}
+
+                                <small>
+                                    {{ registro["fatores"] }}
+                                </small>
+
+                            {% endif %}
+
+                            <p>
+                                {{ registro["nota"] or "Sem anotação." }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+
+                    <span>🌷</span>
+
+                    <p>
+                        Você ainda não possui registros.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Criar conta - Bem Viver</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}"
+       class="logo">
+
+        <span>♡</span>
+        Bem <b>Viver</b>
+
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('index') }}">
+            Início
+        </a>
+
+        <a href="{{ url_for('login') }}"
+           class="btn-nav">
+
+            Entrar
+
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            ✦
+        </div>
+
+        <span class="tag">
+            COMECE SUA JORNADA
+        </span>
+
+        <h1>
+            Crie sua conta
+        </h1>
+
+        <p>
+            Um espaço feito para você
+            cuidar de si.
+        </p>
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for categoria, mensagem in messages %}
+
+                    <div class="alert {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <form method="POST">
+
+            <label>
+                Nome
+
+                <input
+                    type="text"
+                    name="nome"
+                    placeholder="Como podemos te chamar?"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                E-mail
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="seu@email.com"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                Senha
+
+                <input
+                    type="password"
+                    name="senha"
+                    placeholder="Mínimo de 6 caracteres"
+                    minlength="6"
+                    required
+                >
+
+            </label>
+
+
+            <label>
+                Confirmar senha
+
+                <input
+                    type="password"
+                    name="confirmar_senha"
+                    placeholder="Digite a senha novamente"
+                    required
+                >
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="btn-primary full">
+
+                Criar minha conta
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-bottom">
+
+            Já possui uma conta?
+
+            <a href="{{ url_for('login') }}">
+                Entrar
+            </a>
+
+        </p>
+
+    </div>
+
+</main>
+
+</body>
+</html>

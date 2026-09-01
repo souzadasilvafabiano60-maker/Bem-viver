@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Respiração - Bem Viver</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <a href="{{ url_for('index') }}"
+       class="logo">
+
+        <span>♡</span>
+        Bem <b>Viver</b>
+
+    </a>
+
+    <nav>
+
+        <a href="{{ url_for('index') }}">
+            Início
+        </a>
+
+        <a href="{{ url_for('dicas') }}">
+            Dicas
+        </a>
+
+        {% if usuario %}
+
+            <a href="{{ url_for('dashboard') }}">
+                Meu espaço
+            </a>
+
+        {% endif %}
+
+    </nav>
+
+</header>
+
+
+<main class="breathing-page">
+
+    <div class="page-heading center">
+
+        <span class="tag">
+            PAUSA CONSCIENTE
+        </span>
+
+        <h1>
+            Vamos respirar juntos?
+        </h1>
+
+        <p>
+            Encontre uma posição confortável
+            e acompanhe o círculo.
+        </p>
+
+    </div>
+
+
+    <section class="breathing-card">
+
+        <div
+            id="circle"
+            class="breathing-circle">
+
+            <div>
+
+                <strong id="texto">
+                    Inspire
+                </strong>
+
+                <small id="contador">
+                    4
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <p>
+            Inspire pelo nariz, segure
+            suavemente e solte o ar devagar.
+        </p>
+
+
+        <button
+            id="botao"
+            class="btn-primary">
+
+            Começar exercício
+
+        </button>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const circle =
+    document.getElementById("circle");
+
+const texto =
+    document.getElementById("texto");
+
+const contador =
+    document.getElementById("contador");
+
+const botao =
+    document.getElementById("botao");
+
+
+let executando = false;
+
+
+botao.addEventListener(
+    "click",
+    function() {
+
+        if (executando) {
+            return;
+        }
+
+        executando = true;
+
+        botao.disabled = true;
+
+        botao.innerText =
+            "Respire no seu ritmo...";
+
+
+        const fases = [
+
+            {
+                nome: "Inspire",
+                tempo: 4,
+                classe: "in"
+            },
+
+            {
+                nome: "Segure",
+                tempo: 2,
+                classe: "hold"
+            },
+
+            {
+                nome: "Solte o ar",
+                tempo: 6,
+                classe: "out"
+            },
+
+            {
+                nome: "Pause",
+                tempo: 2,
+                classe: "hold"
+            }
+
+        ];
+
+
+        let faseAtual = 0;
+
+        let ciclos = 0;
+
+
+        function iniciarFase() {
+
+            const fase =
+                fases[faseAtual];
+
+
+            texto.innerText =
+                fase.nome;
+
+
+            contador.innerText =
+                fase.tempo;
+
+
+            circle.className =
+                "breathing-circle " +
+                fase.classe;
+
+
+            let tempo =
+                fase.tempo;
+
+
+            const intervalo =
+                setInterval(
+                    function() {
+
+                        tempo--;
+
+                        contador.innerText =
+                            tempo;
+
+
+                        if (tempo <= 0) {
+
+                            clearInterval(
+                                intervalo
+                            );
+
+
+                            faseAtual++;
+
+
+                            if (
+                                faseAtual >=
+                                fases.length
+                            ) {
+
+                                faseAtual = 0;
+
+                                ciclos++;
+
+                            }
+
+
+                            if (ciclos >= 3) {
+
+                                texto.innerText =
+                                    "Muito bem! 💜";
+
+                                contador.innerText =
+                                    "✓";
+
+                                circle.className =
+                                    "breathing-circle";
+
+
+                                botao.disabled =
+                                    false;
+
+                                botao.innerText =
+                                    "Fazer novamente";
+
+
+                                executando =
+                                    false;
+
+                                return;
+
+                            }
+
+
+                            iniciarFase();
+
+                        }
+
+                    },
+                    1000
+                );
+
+        }
+
+
+        iniciarFase();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

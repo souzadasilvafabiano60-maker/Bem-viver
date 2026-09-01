@@ -1,3 +1,2 @@
-# Bem-viver
 Flask
-Flask-SQLAlchemy
+Werkzeug
