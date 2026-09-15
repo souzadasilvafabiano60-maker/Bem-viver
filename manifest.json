@@ -1,0 +1,9 @@
+{
+  "name": "Bem Viver",
+  "short_name": "Bem Viver",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7c4dff",
+  "icons": []
+}

@@ -13,6 +13,8 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
 </head>
 
 <body>
@@ -76,7 +78,8 @@
 
         <section class="panel">
 
-            <form method="POST">
+           <form method="POST"
+                action="{% if editar %}{{ url_for('editar_diario', id=editar['id']) }}{% else %}{{ url_for('diario') }}{% endif %}">
 
 
                 <h3 class="question">
@@ -94,9 +97,9 @@
                             name="humor"
                             value="😄"
                             required
+                            {% if editar and editar["humor"] == "😄" %}checked{% endif %}
                         >
-
-                        <span>😄</span>
+                                                <span>😄</span>
 
                         <small>
                             Muito bem
@@ -111,6 +114,7 @@
                             type="radio"
                             name="humor"
                             value="🙂"
+                            {% if editar and editar["humor"] == "🙂" %}checked{% endif %}
                         >
 
                         <span>🙂</span>
@@ -125,9 +129,11 @@
                     <label class="mood-option">
 
                         <input
+                          
                             type="radio"
                             name="humor"
                             value="😐"
+                            {% if editar and editar["humor"] == "😐" %}checked{% endif %}
                         >
 
                         <span>😐</span>
@@ -141,12 +147,12 @@
 
                     <label class="mood-option">
 
-                        <input
-                            type="radio"
-                            name="humor"
-                            value="😔"
-                        >
-
+                     <input
+                        type="radio"
+                        name="humor"
+                        value="😔"
+                        {% if editar and editar["humor"] == "😔" %}checked{% endif %}
+                    >
                         <span>😔</span>
 
                         <small>
@@ -162,8 +168,8 @@
                             type="radio"
                             name="humor"
                             value="😣"
+                            {% if editar and editar["humor"] == "😣" %}checked{% endif %}
                         >
-
                         <span>😣</span>
 
                         <small>
@@ -243,13 +249,11 @@
                     Quer escrever um pouco?
                 </h3>
 
-
-                <textarea
-                    name="nota"
-                    rows="7"
-                    placeholder="Coloque aqui o que estiver passando pela sua cabeça..."
-                ></textarea>
-
+            <textarea
+                name="nota"
+                rows="7"
+                placeholder="Coloque aqui o que estiver passando pela sua cabeça..."
+            >{{ editar["nota"] if editar else "" }}</textarea>
 
                 <button
                     type="submit"
@@ -328,6 +332,14 @@
     </div>
 
 </main>
-
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}")
+        .then(reg => console.log('Service Worker registrado com sucesso:', reg.scope))
+        .catch(err => console.error('Falha ao registrar o Service Worker:', err));
+    });
+  }
+</script>
 </body>
 </html>

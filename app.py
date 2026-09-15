@@ -1,10 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 import sqlite3
+import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import datetime
 
-app = Flask(__name__)
+print("PASTA DO APP:", os.path.dirname(os.path.abspath(__file__)))
+print("STATIC EXISTE:", os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")))
+print("SW EXISTE:", os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "sw.js")))
+print("MANIFEST EXISTE:", os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "manifest.json")))
+
+
+app = Flask(
+    __name__,
+    static_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), "static"),
+    template_folder=os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
+)
 
 app.secret_key = "chave-bem-viver-123"
 
@@ -418,7 +429,106 @@ def diario():
         registros=registros
     )
 
+# =========================
+# EDITAR REGISTRO DO DIÁRIO
+# =========================
 
+@app.route("/diario/editar/<int:id>", methods=["GET", "POST"])
+@login_required
+def editar_diario(id):
+
+    db = get_db()
+
+    # Procura o registro do usuário logado
+    registro = db.execute(
+        """
+        SELECT *
+        FROM diario
+        WHERE id = ? AND usuario_id = ?
+        """,
+        (id, session["usuario_id"])
+    ).fetchone()
+
+    if registro is None:
+        flash("Registro não encontrado.", "error")
+        return redirect(url_for("diario"))
+
+    if request.method == "POST":
+
+        humor = request.form.get("humor")
+        nota = request.form.get("nota", "").strip()
+
+        fatores = request.form.getlist("fatores")
+        fatores_texto = ", ".join(fatores)
+
+        if not humor:
+            flash("Escolha como você está se sentindo.", "error")
+        else:
+
+            db.execute(
+                """
+                UPDATE diario
+                SET humor = ?, nota = ?, fatores = ?
+                WHERE id = ? AND usuario_id = ?
+                """,
+                (
+                    humor,
+                    nota,
+                    fatores_texto,
+                    id,
+                    session["usuario_id"]
+                )
+            )
+
+            db.commit()
+
+            flash("Registro atualizado com sucesso! 💜", "success")
+
+            return redirect(url_for("diario"))
+
+    registros = db.execute(
+        """
+        SELECT *
+        FROM diario
+        WHERE usuario_id = ?
+        ORDER BY id DESC
+        """,
+        (session["usuario_id"],)
+    ).fetchall()
+
+    return render_template(
+        "diario.html",
+        registros=registros,
+        editar=registro
+    )
+
+
+# =========================
+# EXCLUIR REGISTRO DO DIÁRIO
+# =========================
+
+@app.route("/diario/excluir/<int:id>", methods=["POST"])
+@login_required
+def excluir_diario(id):
+
+    db = get_db()
+
+    db.execute(
+        """
+        DELETE FROM diario
+        WHERE id = ? AND usuario_id = ?
+        """,
+        (
+            id,
+            session["usuario_id"]
+        )
+    )
+
+    db.commit()
+
+    flash("Registro excluído com sucesso.", "success")
+
+    return redirect(url_for("diario"))
 # =========================
 # PERFIL
 # =========================
